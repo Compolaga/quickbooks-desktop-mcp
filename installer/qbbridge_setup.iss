@@ -15,7 +15,7 @@
 ;      remaining manual step with the exact file path to upload.
 
 #define MyAppName "QBBridge"
-#define MyAppVersion "0.1.0"
+#define MyAppVersion "0.2.0"
 #define MyAppPublisher "QBBridge"
 #define MyAppURL "https://github.com/lilfroog/qbbridge"
 #define MyAppExeName "qbbridge-mcp.exe"
@@ -38,8 +38,10 @@ OutputBaseFilename=QBBridgeSetup
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
-ArchitecturesAllowed=x64compatible
-ArchitecturesInstallIn64BitMode=x64compatible
+; 32-bit on purpose: qbbridge-mcp.exe is a 32-bit (x86) build, because
+; QBXMLRP2 of 32-bit QuickBooks (2021 and older, e.g. Pro 2016) only works
+; from a 32-bit process. No ArchitecturesInstallIn64BitMode: installs into
+; Program Files (x86) on 64-bit Windows; runs on x86, x64 and ARM64 Windows.
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -69,7 +71,7 @@ Filename: "{app}\NEXT_STEPS.txt"; Description: "View the one remaining setup ste
     Flags: postinstall shellexec skipifsilent
 
 [UninstallDelete]
-; Best-effort cleanup; does not touch the user's other MCP server entries
-; (see installer/remove_claude_desktop_entry.py if a cleaner uninstall of
-; just the "qbbridge" config key is wanted later).
+; Best-effort cleanup; does not touch the user's other MCP server entries.
+; The "qbbridge" entry in claude_desktop_config.json is left in place
+; (removing it is not automated; delete it by hand if wanted).
 Type: files; Name: "{app}\*.exe"

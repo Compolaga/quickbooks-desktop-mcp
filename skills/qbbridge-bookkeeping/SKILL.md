@@ -17,6 +17,14 @@ account, or classification. Every decision must trace back to either
 existing evidence in the company file, or an explicit instruction from the
 user in this conversation. If neither exists, flag it -- don't guess.**
 
+**In this fork (quickbooks-desktop-mcp) the server itself enforces two rules
+that override anything below:** (1) every write tool first returns a
+preview and a confirm code; book only by calling the same tool again with
+that code after the user approved that preview -- there is no "proceed
+without stopping". (2) Existing transactions cannot be deleted or changed;
+only this server's own runs can be undone, with `qb_revert_run(run_id)`.
+Start every session with `qb_status`.
+
 ## 0. Before doing anything
 
 1. Call `qb_company_info`. Confirm out loud, in your response, which
@@ -157,13 +165,13 @@ Before posting anything, summarize for the user:
   it -- unless the user has already told you to create it as part of this
   request.
 
-Ask for confirmation before posting, unless the user has explicitly told
-you in this conversation to proceed without stopping. After posting,
+Ask for confirmation of each preview before posting it; a general "go
+ahead" is not approval of a preview you have not shown. After posting,
 always report:
 - How many posted successfully vs. failed, with the reason for any
   failure.
-- The run log path(s) `qb_add_transaction` returns, and remind the user
-  these can be reverted with `qb_revert_run` if anything needs correcting.
+- The run_id(s) the write tools return, and remind the user these can be
+  reverted with `qb_revert_run` if anything needs correcting.
 
 ## 7. What this skill does not cover
 

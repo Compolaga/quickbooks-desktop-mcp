@@ -1,5 +1,10 @@
 # Building the QBBridge installer
 
+> **Fork (quickbooks-desktop-mcp):** build with the **32-bit** script
+> `installer/build_win32.ps1` (see the main README, "Bouwen"). The steps
+> below are upstream's and assume a matching Python; for QuickBooks 2016 the
+> exe must be 32-bit.
+
 Two stages: PyInstaller freezes the Python code into standalone `.exe`s
 (no Python install required on the end user's machine), then Inno Setup
 wraps those into one `QBBridgeSetup.exe` that also auto-registers QBBridge
