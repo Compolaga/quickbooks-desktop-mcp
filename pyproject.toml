@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "qbbridge-mcp"
+version = "0.1.0"
+description = "QBBridge -- an MCP frontend for QuickBooks Desktop. Read, write, and safely undo transactions via QBXML/QBFC, from any MCP-compatible client."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "mcp>=1.0.0",
+    "pywin32; sys_platform == 'win32'",
+]
+
+[project.scripts]
+qbbridge-mcp = "qbbridge_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/qbbridge_mcp"]
